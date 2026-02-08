@@ -1,292 +1,221 @@
-# Projeto MLOps – Previsão de Preço de Diamantes
+# 📊 Projeto MLOps - Previsão de preços de diamantes
 
-Este repositório faz parte da disciplina **MLOps – Running ML in Production Environments**.
-
-O objetivo do projeto é mostrar, passo a passo, como evoluir de um fluxo manual em notebooks para um projeto de Machine Learning organizado, reprodutível e pronto para automação, seguindo boas práticas de MLOps.
+## 👤 Desenvolvedor: Mateus Zambello
 
 ---
 
-## Contexto até aqui
+## 📋 Resumo do Projeto
 
-Na **Aula 1**, trabalhamos com um fluxo típico de ciência de dados:
-
-- EDA em notebook  
-- Treino e inferência manual  
-- Uso inicial do MLflow para registrar experimentos  
-
-Esse fluxo funciona, mas não escala e não é fácil de repetir.
-
-Na **Aula 2**, o foco foi **organizar o projeto e estruturar o ciclo de dados**, preparando o terreno para automação e evolução do pipeline nas próximas aulas.
+Aplicação de Machine Learning para previsão de preços de diamantes utilizando:
+- **Modelagem**: Scikit-learn (Random Forest)
+- **Frontend**: Streamlit
+- **Versioning**: Git
+- **Containerização**: Docker
+- **Tracking**: MLflow
 
 ---
 
-## O que foi feito na Aula 2
+## 🎯 Funcionalidades Implementadas
 
-Nesta etapa, o projeto passou por uma reorganização importante:
+### ✅ Código Base
+- [x] Módulo de dados (`src/data.py`)
+- [x] Módulo de modelo (`src/model.py`)
+- [x] Módulo de avaliação (`src/evaluate.py`)
+- [x] Script de treinamento (`train.py`)
+- [x] Testes automatizados (`tests/`)
 
-- Criação de um repositório GitHub  
-- Estruturação do projeto em pastas claras  
-- Separação da lógica de dados em um módulo Python  
-- Criação de um ponto único para carregar e dividir os dados  
-- Integração do notebook com o código do projeto  
+### ✅ Interface Web (Streamlit)
+- [x] **Personalização do App**:
+  - ✨ Nome do desenvolvedor: **Mateus Zambello**
+  - 🎨 Tema com cores verdes personalizadas
+  - 💎 Logo/Imagem adicionada (`app/img/diamond-logo.jpg`)
+  - © Copyright: "© 2026 Diamond Price Predictor - Desenvolvido por Mateus Zambello"
 
-O notebook deixou de ser responsável por toda a lógica de dados e passou a **consumir funções reutilizáveis**.
+### ✅ Features do App
+- [x] Entrada de 9 parâmetros do diamante
+- [x] Layout em 3 colunas para melhor UX
+- [x] Botão de predição com spinner
+- [x] Resultado destacado em verde
+- [x] Footer com informações do desenvolvedor
 
----
-
-## O que foi feito na Aula 3
-
-Na Aula 3, o projeto evoluiu do preparo de dados para um **pipeline completo de modelagem**.
-
-Foram implementados:
-
-- separação da lógica de modelagem em módulos Python  
-- pipeline de pré-processamento e treino com scikit-learn  
-- script de treino executável via linha de comando  
-- avaliação padronizada de métricas de regressão  
-- experiment tracking completo com MLflow  
-- versionamento de modelos no MLflow Model Registry  
-- testes automatizados com pytest  
-
-A partir deste ponto, o modelo deixa de depender do notebook e passa a ser tratado
-como um **artefato versionado e rastreável**.
-
-
-## Estrutura atual do projeto
-
-```text
-impacta_mlops/
-│
-├── notebooks/
-│   └── eda_diamonds.ipynb
-│
-├── src/
-│   ├── data.py
-│   ├── model.py
-│   ├── __init__.py
-│   └── evaluate.py
-│
-├── app/
-│
-├── tests/
-│   ├── test_data.py
-│   ├── __init__.py
-│   ├── test_model.py
-│   └── test_train.py
-│
-├── models/
-│   └── diamond_price_model.joblib
-│
-├── requirements.txt
-├── train.py
-├── pytest.ini
-├── main.py
-├── README.md
-└── .gitignore
-
-```
+### ✅ Deployment
+- [x] Dockerfile configurado
+- [x] Docker Compose com orquestração
+- [x] MLflow local para tracking
 
 ---
 
-## Módulo de dados
+## 🚀 Como Executar
 
-O arquivo `src/data.py` centraliza a lógica relacionada aos dados:
-
-- carregamento do dataset `diamonds` do seaborn  
-- separação de features e target  
-- divisão em treino e teste  
-
-Isso garante que todos usem **o mesmo processo de preparação**, evitando inconsistências entre notebooks e scripts.
-
----
-
-## Uso no notebook
-
-O notebook agora utiliza diretamente o módulo de dados:
-
-```python
-from src.data import train_test_split_diamonds
-
-X_train, X_test, y_train, y_test = train_test_split_diamonds()
-```
-
-Com isso:
-
-- a lógica de dados fica centralizada  
-- o notebook fica mais simples  
-- o código se torna reutilizável  
-- o projeto começa a ganhar reprodutibilidade  
-
----
-
-## Ambiente de desenvolvimento
-
-Recomenda-se o uso de ambiente virtual.
-
-Criar e ativar o ambiente:
-
+### 1️⃣ Preparar Ambiente
 ```bash
+# Criar ambiente virtual
 python -m venv .venv
-.\.venv\Scripts\activate
-```
 
-Instalar dependências:
+# Ativar ambiente
+.venv\Scripts\Activate.ps1
 
-```bash
+# Instalar dependências
 pip install -r requirements.txt
 ```
 
----
-
-### – Pipeline de treino
-
-
-O treino do modelo é executado via script Python, sem dependência de notebook.
-
-Execução padrão:
-
+### 2️⃣ Treinar Modelo
 ```bash
 python train.py
 ```
 
-
-É possível ajustar hiperparâmetros via linha de comando:
-
+### 3️⃣ Executar Streamlit (Local)
 ```bash
-python train.py --max_depth 3
+streamlit run app/streamlit_app.py
 ```
+Abre em: `http://localhost:8501`
 
-Durante o treino, são registrados no MLflow:
-parâmetros
-métricas
-artefatos
-modelo treinado
-Isso permite comparar experimentos e versionar modelos de forma consistente.
+### 4️⃣ Executar com Docker
+```bash
+docker compose up --build
+```
+Acesso: `http://localhost:8501`
 
----
-
-### Testes automatizados
-O projeto possui testes básicos para garantir a estabilidade do pipeline.
-
-Execução dos testes:
-
+### 5️⃣ Rodar Testes
 ```bash
 pytest
 ```
 
-Os testes cobrem:
-carregamento e split dos dados
-construção do pipeline de modelagem
-execução completa do script de treino
-Esses testes ajudam a garantir que refatorações não quebrem o fluxo principal.
-
-# Aula 4 – Deploy, Operação e Ciclo Completo de MLOps
-
-Esta aula finaliza o projeto e fecha o ciclo completo de **MLOps**, mostrando como um modelo treinado e versionado pode ser **consumido por uma aplicação real**, com controle de ambiente e foco em operação.
-
 ---
 
-## Contexto da Aula 4
+## 📁 Estrutura do Projeto
 
-Até o final da Aula 3, o projeto já possuía:
-
-- dados organizados e padronizados  
-- pipeline de treino estruturado  
-- versionamento de código e experimentos  
-- rastreabilidade completa com MLflow  
-- modelo registrado e validado  
-
-Na **Aula 4**, o foco deixa de ser o treino do modelo e passa a ser **o uso do modelo**, simulando um cenário real de deploy.
-
----
-
-## Arquitetura adotada
-
-Para manter o ambiente simples, estável e didático, foi adotada a seguinte arquitetura:
-
-- **MLflow rodando localmente (host)**  
-- responsável por tracking, registry e histórico  
-
-- **Aplicação Streamlit rodando em Docker**  
-- consome o modelo registrado no MLflow (cópia local) 
-- executa inferência em tempo real  
-
----
-
-## Aplicação de predição
-
-Foi criada uma aplicação em **Streamlit** para previsão do preço de diamantes.
-
-A aplicação:
-
-- carrega o modelo campeão localmente, mas no futuro queremos direto do **MLflow Model Registry**  
-- recebe dados do usuário via formulário  
-- executa inferência em tempo real  
-- retorna a previsão de preço  
-
-O modelo **não é treinado no app**, apenas consumido, reforçando a separação entre treino e inferência.
-
----
-
-## Dockerização do app
-
-A aplicação Streamlit foi empacotada em um container Docker, garantindo:
-
-- isolamento de ambiente  
-- reprodutibilidade  
-- facilidade de execução em qualquer máquina  
-
-O Docker é utilizado apenas onde agrega valor, sem forçar a containerização de todos os componentes do pipeline.
-
----
-
-## Execução do projeto
-
-### 1. Subir o MLflow localmente
-
-Na raiz do projeto, execute:
-
-```bash
-python -m mlflow server
+```
+mlops/
+├── app/
+│   ├── streamlit_app.py          # App principal com personalização
+├── src/
+│   ├── __init__.py
+│   ├── data.py                   # Carregamento e split de dados
+│   ├── model.py                  # Construção do pipeline
+│   └── evaluate.py               # Métricas de avaliação
+├── tests/
+│   ├── __init__.py
+│   ├── test_data.py
+│   ├── test_model.py
+│   └── test_train.py
+├── models/
+│   └── diamond_price_model.joblib  # Modelo treinado
+├── notebooks/
+│   └── EDA_diamond.ipynb           # Análise exploratória
+├── train.py                        # Script de treinamento
+├── requirements.txt                # Dependências
+├── Dockerfile                      # Container do app
+├── docker-compose.yml              # Orquestração
+└── pytest.ini                      # Config dos testes
 ```
 
-A interface do MLflow ficará disponível em:
-http://localhost:5000
 ---
 
-### 2. Subir a aplicação com Docker
+## 🎨 Personalização do App
 
-Em outro terminal, execute:
-`docker compose up --build`
-A aplicação Streamlit ficará disponível em:
-http://localhost:8501
+### Configurações Aplicadas:
+
+#### 1. **Tema Streamlit** (`~/.streamlit/config.toml`)
+```toml
+[theme]
+primaryColor = "#2ecc71"              # Verde
+backgroundColor = "#0d3b0d"           # Verde escuro
+secondaryBackgroundColor = "#1a5c1a"  # Verde secundário
+textColor = "#ffffff"                 # Branco
+```
+
+#### 2. **CSS Personalizado**
+- Botões com gradiente verde
+- Títulos em verde com sombra
+- Layout responsivo em 3 colunas
+- Footer com copyright
+
+#### 3. **Header Customizado**
+```
+💎 Previsão de preços de diamantes 💎
+🧑‍💼 Desenvolvido por: Mateus Zambello
+Modelo para previsão de preços de diamantes
+```
+
+#### 5. **Footer**
+```
+© 2026 Diamond Price Predictor - Desenvolvido por Mateus Zambello
+📊 MLOps Project | 🎓 Modelo de Machine Learning para Previsão de Preços
+```
+
 ---
-## Ciclo completo de MLOps
-Ao final da Aula 4, o projeto percorre todas as etapas do ciclo de MLOps:
-- exploração e entendimento dos dados
-- organização do projeto
-- treino estruturado e versionado
-- rastreabilidade de experimentos
-- registro de modelos
-- consumo do modelo em aplicação
-- controle de ambiente e execução
 
-O foco do curso não é apenas treinar modelos, mas entender como mantê-los vivos, confiáveis e utilizáveis.
+### Interface
+- ✅ Fundo verde personalizado
+- ✅ Título e nome do desenvolvedor visível
+- ✅ Logo exibida no header
+- ✅ Botão verde funcional
+- ✅ Resultado em destaque
+- ✅ Copyright no footer
 
 ---
 
-## Encerramento
-Este projeto representa uma visão prática e realista de MLOps, mostrando que os principais desafios não estão apenas no modelo, mas em:
-- ambiente
-- versionamento
-- rastreabilidade
-- deploy
-- operação
+## 🔄 Histórico de Commits
+
+Para visualizar o histórico completo de commits:
+
+```bash
+git log --oneline
+```
+
+**Commits principais:**
+```
+- Personalização do Streamlit com tema verde
+- Adição de logo e footer com copyright
+- Configuração do ambiente virtual
+- Instalação de dependências
+- Implementação do modelo
+- Testes automatizados
+```
 
 ---
 
-# ToDo
-- mlflow no docker
-- rever interface gráfica
-- automatizar testes no github
+## ✅ Checklist de Entrega
 
+- [x] Código versionado no Git
+- [x] Ambiente configurado e funcionando
+- [x] App personalizado com nome do desenvolvedor
+- [x] Tema com cores verdes
+- [x] Logo adicionada
+- [x] Footer com copyright
+- [x] Modelo treinado e salvo
+- [x] Testes passando
+- [x] Docker configurado
+- [x] Documentação completa
+
+---
+
+## 📝 Notas Importantes
+
+- O modelo é salvo em `models/diamond_price_model.joblib`
+- MLflow local em `mlruns/`
+- Cache do Streamlit em `~/.streamlit/cache`
+- Certifique-se de estar no `.venv` antes de rodar comandos
+
+---
+
+## 🤝 Contato
+
+**Desenvolvedor:** Mateus Zambello  
+**Projeto:** MLOps - Diamond Price Predictor  
+**Data:** Fevereiro de 2026  
+**Repositório:** GitHub (mrzambello/mlops)
+
+---
+
+## 📚 Recursos Utilizados
+
+- Python 3.13
+- Scikit-learn 1.8.0
+- Streamlit 1.52.1
+- Pandas 2.3.3
+- Joblib 1.5.3
+- MLflow 3.7.0
+- Docker & Docker Compose
+- Pytest 9.0.2
